@@ -1,0 +1,25 @@
+.login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  div {
+    margin-bottom: 1em;
+  }
+  
+  label {
+    margin-right: 1em;
+  }
+  
+  button {
+    padding: 0.5em;
+  }
+  
