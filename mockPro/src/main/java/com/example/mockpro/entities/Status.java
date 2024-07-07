@@ -4,18 +4,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name="users")
+@Table(name="statuses")
 @Data
-public class User {
+public class Status {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String username;
-    private String password;
-
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    private String title;
 }

@@ -1,21 +1,19 @@
 package com.example.mockpro.entities;
 
+
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name="users")
+@Table(name="roles")
 @Data
-public class User {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String username;
-    private String password;
+    @Column(unique = true)
+    private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
 }

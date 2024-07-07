@@ -4,9 +4,11 @@ import com.example.mockpro.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @Data
 @AllArgsConstructor
@@ -14,17 +16,23 @@ public class UserDetailsImpl implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetailsImpl build(User user){
+        Collection<? extends GrantedAuthority> authorities = Collections.singletonList(
+                new SimpleGrantedAuthority(user.getRole().getTitle())
+        );
         return new UserDetailsImpl(
                 user.getId(),
                 user.getUsername(),
-                user.getPassword());
+                user.getPassword(),
+                authorities
+        );
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override

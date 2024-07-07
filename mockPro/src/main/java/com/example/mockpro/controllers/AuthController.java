@@ -56,7 +56,8 @@ public class AuthController {
     ResponseEntity<?> signin(@RequestBody SignInDTO signinRequest){
         Authentication authentication = null;
         try{
-            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signinRequest.getUsername(), signinRequest.getPassword()));
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(signinRequest.getUsername(), signinRequest.getPassword()));
         } catch(BadCredentialsException e){
             return new ResponseEntity<>(new AppError(HttpStatus.UNAUTHORIZED.value(), "Неправильный логин или пароль"), HttpStatus.UNAUTHORIZED);
         }

@@ -3,19 +3,15 @@ package com.example.mockpro.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity
-@Table(name="users")
-@Data
-public class User {
+/*@Entity
+@Table(name="requestStatuses")
+@Data*/
+public class RequestStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String username;
-    private String password;
+    private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
 }
