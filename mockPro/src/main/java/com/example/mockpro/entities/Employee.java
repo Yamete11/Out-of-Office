@@ -3,9 +3,9 @@ package com.example.mockpro.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-/*@Entity
+@Entity
 @Table(name = "employees")
-@Data*/
+@Data
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +35,7 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
-    private Employee employee;
+    private Employee peoplePartner;
 
     @Lob
     private byte[] photo;

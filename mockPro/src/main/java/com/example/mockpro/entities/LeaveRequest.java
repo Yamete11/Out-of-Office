@@ -6,9 +6,9 @@ import lombok.Data;
 import java.sql.Timestamp;
 import java.util.Date;
 
-/*@Entity
+@Entity
 @Table(name = "leave_requests")
-@Data*/
+@Data
 public class LeaveRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

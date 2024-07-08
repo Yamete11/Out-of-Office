@@ -3,9 +3,9 @@ package com.example.mockpro.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-/*@Entity
+@Entity
 @Table(name="requestStatuses")
-@Data*/
+@Data
 public class RequestStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

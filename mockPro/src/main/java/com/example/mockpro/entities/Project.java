@@ -23,9 +23,9 @@ public class Project {
 
     private Timestamp endDate;
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
-    private Employee projectManager;*/
+    private Employee projectManager;
 
     private String comment;
 

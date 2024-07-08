@@ -1,7 +1,6 @@
-// src/pages/HomePage.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import verifyToken from '../utils/jwtUtils'; // Adjust the path as necessary
+import verifyToken from '../utils/jwtUtils'; 
 
 const HomePage = () => {
   const [user, setUser] = useState(null);
@@ -12,12 +11,16 @@ const HomePage = () => {
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = verifyToken(token);
-      setUser(decodedToken.sub); // Assuming 'sub' contains the username
-      setRole(decodedToken.role); // Assuming 'role' contains the user's role
+      setUser(decodedToken.sub);
+      setRole(decodedToken.role); 
     } else {
-      navigate('/login'); // Redirect to login if no token is found
+      navigate('/login');
     }
   }, [navigate]);
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
 
   if (!user) {
     return <div>Loading...</div>;
@@ -27,7 +30,14 @@ const HomePage = () => {
     <div>
       <h1>Welcome, {user}</h1>
       <p>Your role is: {role}</p>
-      {role === 'HR_MANAGER' && <div>HR Manager Content</div>}
+      {role === 'HR_MANAGER' && (
+        <div>
+          <button onClick={() => handleNavigation('/employees')}>Employees</button>
+          <button onClick={() => handleNavigation('/projects')}>Projects</button>
+          <button onClick={() => handleNavigation('/leave-requests')}>Leave Requests</button>
+          <button onClick={() => handleNavigation('/approval-requests')}>Approval Requests</button>
+        </div>
+      )}
       {role === 'PROJECT_MANAGER' && <div>Project Manager Content</div>}
       {role === 'EMPLOYEE' && <div>Employee Content</div>}
     </div>

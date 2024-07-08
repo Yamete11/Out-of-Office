@@ -1,4 +1,3 @@
-/*
 package com.example.mockpro.repositories;
 
 import com.example.mockpro.entities.AbsenceReason;
@@ -8,4 +7,3 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AbsenceReasonRepository extends JpaRepository<AbsenceReason, Long> {
 }
-*/
