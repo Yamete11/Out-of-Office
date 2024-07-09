@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import LeaveRequestItem from '../components/LeaveRequestItem';
+import LeaveRequestDetails from '../components/LeaveRequestDetails';
 
 const LeaveRequestsPage = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRequest, setSelectedRequest] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -64,6 +66,7 @@ const LeaveRequestsPage = () => {
               <LeaveRequestItem
                 key={request.id}
                 request={request}
+                onDetailsClick={() => setSelectedRequest(request)}
               />
             ))
           ) : (
@@ -73,6 +76,12 @@ const LeaveRequestsPage = () => {
           )}
         </tbody>
       </table>
+      {selectedRequest && (
+        <LeaveRequestDetails 
+          request={selectedRequest} 
+          onClose={() => setSelectedRequest(null)} 
+        />
+      )}
     </div>
   );
 };

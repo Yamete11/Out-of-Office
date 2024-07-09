@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ListItem = ({ employee, onUpdateStatus, onEdit }) => {
+const ListItem = ({ employee, onUpdateStatus, onEdit, onViewDetails }) => {
   const handleStatusChange = () => {
     const newStatusId = employee.status.id === 1 ? 2 : 1;
     onUpdateStatus(employee.id, newStatusId);
@@ -21,6 +21,9 @@ const ListItem = ({ employee, onUpdateStatus, onEdit }) => {
         </button>
         <button onClick={handleStatusChange}>
           {employee.status.id === 1 ? 'Deactivate' : 'Activate'}
+        </button>
+        <button onClick={onViewDetails}>
+          Details
         </button>
       </td>
     </tr>

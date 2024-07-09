@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LeaveRequestItem = ({ request }) => {
+const LeaveRequestItem = ({ request, onDetailsClick }) => {
   return (
     <tr>
       <td>{request.employee?.fullName || 'N/A'}</td>
@@ -10,7 +10,7 @@ const LeaveRequestItem = ({ request }) => {
       <td>{request.requestStatus?.title || 'N/A'}</td>
       <td>{request.comment || 'N/A'}</td>
       <td>
-        <button>
+        <button onClick={onDetailsClick}>
           Details
         </button>
       </td>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import ListItem from '../components/ListItem';
 import AddEmployeeForm from '../components/AddEmployeeForm';
 import EditEmployeeForm from '../components/EditEmployeeForm';
+import EmployeeDetails from '../components/EmployeeDetails';
 
 const EmployeesPage = () => {
   const [employees, setEmployees] = useState([]);
@@ -102,6 +103,7 @@ const EmployeesPage = () => {
                 employee={employee}
                 onUpdateStatus={updateEmployeeStatus}
                 onEdit={() => { setSelectedEmployee(employee); setShowEditForm(true); }}
+                onViewDetails={() => setSelectedEmployee(employee)}
               />
             ))
           ) : (
@@ -111,6 +113,12 @@ const EmployeesPage = () => {
           )}
         </tbody>
       </table>
+      {selectedEmployee && !showEditForm && (
+        <EmployeeDetails 
+          employee={selectedEmployee} 
+          onClose={() => setSelectedEmployee(null)} 
+        />
+      )}
     </div>
   );
 };

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProjectItem from '../components/ProjectItem';
+import ProjectDetails from '../components/ProjectDetails';
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -65,6 +67,7 @@ const ProjectsPage = () => {
               <ProjectItem
                 key={project.id}
                 project={project}
+                onDetailsClick={() => setSelectedProject(project)}
               />
             ))
           ) : (
@@ -74,6 +77,12 @@ const ProjectsPage = () => {
           )}
         </tbody>
       </table>
+      {selectedProject && (
+        <ProjectDetails 
+          project={selectedProject} 
+          onClose={() => setSelectedProject(null)} 
+        />
+      )}
     </div>
   );
 };

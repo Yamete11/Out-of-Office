@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProjectItem = ({ project }) => {
+const ProjectItem = ({ project, onDetailsClick }) => {
   return (
     <tr>
       <td>{project.id || 'N/A'}</td>
@@ -11,7 +11,7 @@ const ProjectItem = ({ project }) => {
       <td>{project.comment || 'N/A'}</td>
       <td>{project.status?.title || 'N/A'}</td>
       <td>
-        <button>
+        <button onClick={onDetailsClick}>
           Details
         </button>
       </td>

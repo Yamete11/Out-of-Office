@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ApprovalRequestItem from '../components/ApprovalRequestItem';
+import ApprovalRequestDetails from '../components/ApprovalRequestDetails';
 
 const ApprovalRequestsPage = () => {
   const [approvalRequests, setApprovalRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRequest, setSelectedRequest] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -63,6 +65,7 @@ const ApprovalRequestsPage = () => {
               <ApprovalRequestItem
                 key={request.id}
                 request={request}
+                onDetailsClick={() => setSelectedRequest(request)}
               />
             ))
           ) : (
@@ -72,6 +75,12 @@ const ApprovalRequestsPage = () => {
           )}
         </tbody>
       </table>
+      {selectedRequest && (
+        <ApprovalRequestDetails 
+          request={selectedRequest} 
+          onClose={() => setSelectedRequest(null)} 
+        />
+      )}
     </div>
   );
 };

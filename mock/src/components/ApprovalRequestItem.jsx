@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ApprovalRequestItem = ({ request }) => {
+const ApprovalRequestItem = ({ request, onDetailsClick }) => {
   return (
     <tr>
       <td>{request.id || 'N/A'}</td>
@@ -9,7 +9,7 @@ const ApprovalRequestItem = ({ request }) => {
       <td>{request.requestStatus?.title || 'N/A'}</td>
       <td>{request.comment || 'N/A'}</td>
       <td>
-        <button>
+        <button onClick={onDetailsClick}>
           Details
         </button>
       </td>
