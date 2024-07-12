@@ -9,6 +9,8 @@ const LeaveRequestsPage = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const [sortBy, setSortBy] = useState('employee.fullName');
+  const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -27,7 +29,25 @@ const LeaveRequestsPage = () => {
       });
   }, []);
 
-  const filteredRequests = leaveRequests.filter(request =>
+  const handleSort = (column) => {
+    const order = sortBy === column && sortOrder === 'asc' ? 'desc' : 'asc';
+    setSortBy(column);
+    setSortOrder(order);
+  };
+
+  const sortData = (data, column, order) => {
+    return data.sort((a, b) => {
+      const aValue = column.includes('.') ? column.split('.').reduce((o, i) => o[i], a) : a[column];
+      const bValue = column.includes('.') ? column.split('.').reduce((o, i) => o[i], b) : b[column];
+      if (aValue < bValue) return order === 'asc' ? -1 : 1;
+      if (aValue > bValue) return order === 'asc' ? 1 : -1;
+      return 0;
+    });
+  };
+
+  const sortedRequests = sortData([...leaveRequests], sortBy, sortOrder);
+
+  const filteredRequests = sortedRequests.filter(request =>
     request.employee?.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -51,12 +71,30 @@ const LeaveRequestsPage = () => {
       <table>
         <thead>
           <tr>
-            <th>Employee</th>
-            <th>Absence Reason</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Request Status</th>
-            <th>Comment</th>
+            <th>
+              Employee
+              <button onClick={() => handleSort('employee.fullName')}>{sortOrder === 'asc' && sortBy === 'employee.fullName' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              Absence Reason
+              <button onClick={() => handleSort('absenceReason.title')}>{sortOrder === 'asc' && sortBy === 'absenceReason.title' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              Start Date
+              <button onClick={() => handleSort('startDate')}>{sortOrder === 'asc' && sortBy === 'startDate' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              End Date
+              <button onClick={() => handleSort('endDate')}>{sortOrder === 'asc' && sortBy === 'endDate' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              Request Status
+              <button onClick={() => handleSort('requestStatus.title')}>{sortOrder === 'asc' && sortBy === 'requestStatus.title' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              Comment
+              <button onClick={() => handleSort('comment')}>{sortOrder === 'asc' && sortBy === 'comment' ? '↑' : '↓'}</button>
+            </th>
             <th>Actions</th>
           </tr>
         </thead>

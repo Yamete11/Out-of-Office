@@ -13,6 +13,8 @@ const EmployeesPage = () => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('fullName');
+  const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -58,7 +60,25 @@ const EmployeesPage = () => {
     ));
   };
 
-  const filteredEmployees = employees.filter(employee =>
+  const handleSort = (column) => {
+    const order = sortBy === column && sortOrder === 'asc' ? 'desc' : 'asc';
+    setSortBy(column);
+    setSortOrder(order);
+  };
+
+  const sortData = (data, column, order) => {
+    return data.sort((a, b) => {
+      const aValue = column.includes('.') ? column.split('.').reduce((o, i) => o[i], a) : a[column];
+      const bValue = column.includes('.') ? column.split('.').reduce((o, i) => o[i], b) : b[column];
+      if (aValue < bValue) return order === 'asc' ? -1 : 1;
+      if (aValue > bValue) return order === 'asc' ? 1 : -1;
+      return 0;
+    });
+  };
+
+  const sortedEmployees = sortData([...employees], sortBy, sortOrder);
+
+  const filteredEmployees = sortedEmployees.filter(employee =>
     employee.fullName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -85,13 +105,33 @@ const EmployeesPage = () => {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Full Name</th>
-            <th>Username</th>
-            <th>Position</th>
-            <th>Status</th>
-            <th>Subdivision</th>
-            <th>People Partner</th>
+            <th>
+              ID
+              <button onClick={() => handleSort('id')}>{sortOrder === 'asc' && sortBy === 'id' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              Full Name
+              <button onClick={() => handleSort('fullName')}>{sortOrder === 'asc' && sortBy === 'fullName' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              Username
+              <button onClick={() => handleSort('username')}>{sortOrder === 'asc' && sortBy === 'username' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              Position
+              <button onClick={() => handleSort('position.title')}>{sortOrder === 'asc' && sortBy === 'position.title' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              Status
+              <button onClick={() => handleSort('status.title')}>{sortOrder === 'asc' && sortBy === 'status.title' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              Subdivision
+              <button onClick={() => handleSort('subdivision.title')}>{sortOrder === 'asc' && sortBy === 'subdivision.title' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              People Partner
+            </th>
             <th>Actions</th>
           </tr>
         </thead>

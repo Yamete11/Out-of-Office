@@ -9,6 +9,8 @@ const ApprovalRequestsPage = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const [sortBy, setSortBy] = useState('id');
+  const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -27,7 +29,25 @@ const ApprovalRequestsPage = () => {
       });
   }, []);
 
-  const filteredRequests = approvalRequests.filter(request =>
+  const handleSort = (column) => {
+    const order = sortBy === column && sortOrder === 'asc' ? 'desc' : 'asc';
+    setSortBy(column);
+    setSortOrder(order);
+  };
+
+  const sortData = (data, column, order) => {
+    return data.sort((a, b) => {
+      const aValue = column.includes('.') ? column.split('.').reduce((o, i) => o[i], a) : a[column];
+      const bValue = column.includes('.') ? column.split('.').reduce((o, i) => o[i], b) : b[column];
+      if (aValue < bValue) return order === 'asc' ? -1 : 1;
+      if (aValue > bValue) return order === 'asc' ? 1 : -1;
+      return 0;
+    });
+  };
+
+  const sortedRequests = sortData([...approvalRequests], sortBy, sortOrder);
+
+  const filteredRequests = sortedRequests.filter(request =>
     request.id?.toString().toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -51,11 +71,26 @@ const ApprovalRequestsPage = () => {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Approver</th>
-            <th>Leave Request</th>
-            <th>Request Status</th>
-            <th>Comment</th>
+            <th>
+              ID
+              <button onClick={() => handleSort('id')}>{sortOrder === 'asc' && sortBy === 'id' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              Approver
+              <button onClick={() => handleSort('approver.fullName')}>{sortOrder === 'asc' && sortBy === 'approver.fullName' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              Leave Request
+              <button onClick={() => handleSort('leaveRequest.reason')}>{sortOrder === 'asc' && sortBy === 'leaveRequest.reason' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              Request Status
+              <button onClick={() => handleSort('requestStatus.title')}>{sortOrder === 'asc' && sortBy === 'requestStatus.title' ? '↑' : '↓'}</button>
+            </th>
+            <th>
+              Comment
+              <button onClick={() => handleSort('comment')}>{sortOrder === 'asc' && sortBy === 'comment' ? '↑' : '↓'}</button>
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
