@@ -15,4 +15,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query("SELECT e FROM Employee e JOIN e.position p WHERE p.title = 'HR_MANAGER'")
     List<Employee> findAllByPositionHrManager();
+
+    List<Employee> findByPositionTitle(String hr_manager);
 }

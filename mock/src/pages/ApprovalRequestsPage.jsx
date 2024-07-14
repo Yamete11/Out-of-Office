@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ApprovalRequestItem from '../components/ApprovalRequestItem';
 import ApprovalRequestDetails from '../components/ApprovalRequestDetails';
+import '../styles/CommonPage.css';
 
 const ApprovalRequestsPage = () => {
   const [approvalRequests, setApprovalRequests] = useState([]);
@@ -51,6 +52,13 @@ const ApprovalRequestsPage = () => {
     request.id?.toString().toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleStatusChange = (updatedRequest) => {
+    setApprovalRequests(prevRequests => prevRequests.map(request =>
+      request.id === updatedRequest.id ? updatedRequest : request
+    ));
+    setSelectedRequest(updatedRequest);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -60,7 +68,7 @@ const ApprovalRequestsPage = () => {
   }
 
   return (
-    <div>
+    <div className="page-container">
       <h1>Approval Requests</h1>
       <input
         type="text"
@@ -114,6 +122,7 @@ const ApprovalRequestsPage = () => {
         <ApprovalRequestDetails 
           request={selectedRequest} 
           onClose={() => setSelectedRequest(null)} 
+          onStatusChange={handleStatusChange}
         />
       )}
     </div>

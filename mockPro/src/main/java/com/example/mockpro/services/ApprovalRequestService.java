@@ -40,21 +40,21 @@ public class ApprovalRequestService {
         return dto;
     }
 
-    public void changeStatus(RequestDecisionDTO requestDecisionDTO){
+    public ApprovalRequestDTO changeStatus(RequestDecisionDTO requestDecisionDTO){
         Optional<ApprovalRequest> appRequest = approvalRequestRepository.findById(requestDecisionDTO.getId());
         if(appRequest.isPresent()){
             ApprovalRequest approvalRequest = appRequest.get();
-            Optional<RequestStatus> requestStatus = requestStatusRepository.findById(requestDecisionDTO.getId());
+            Optional<RequestStatus> requestStatus = requestStatusRepository.findById(requestDecisionDTO.getStatus());
             if (requestStatus.isPresent()) {
                 approvalRequest.setRequestStatus(requestStatus.get());
                 approvalRequest.setComment(requestDecisionDTO.getComment());
                 approvalRequestRepository.save(approvalRequest);
+                return convertToDTO(approvalRequest);
             } else {
                 throw new IllegalArgumentException("Invalid status ID");
             }
         } else {
-        throw new IllegalArgumentException("Approval request not found");
-    }
-
+            throw new IllegalArgumentException("Approval request not found");
+        }
     }
 }

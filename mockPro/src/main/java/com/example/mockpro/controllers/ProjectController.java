@@ -29,6 +29,15 @@ public class ProjectController {
         return new ResponseEntity<>(projectService.getAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/filtered")
+    public ResponseEntity<List<ProjectDTO>> getProjects(
+            @RequestParam(required = false) String searchTerm,
+            @RequestParam(required = false) String projectType,
+            @RequestParam(required = false) String projectManager,
+            @RequestParam(required = false) String status) {
+        return new ResponseEntity<>(projectService.getProjects(searchTerm, projectType, projectManager, status), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<?> addProject(@RequestBody AddProjectDTO addProjectDTO) {
         projectService.addProject(addProjectDTO);

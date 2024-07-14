@@ -1,6 +1,5 @@
 package com.example.mockpro.security;
 
-import com.example.mockpro.services.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,19 +48,17 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/**").permitAll()
-                        /*.requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/**").hasAnyAuthority("HR_MANAGER", "PROJECT_MANAGER", "EMPLOYEE")
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/home/**").authenticated()
                         .requestMatchers("/employees/**").hasAnyAuthority("HR_MANAGER", "PROJECT_MANAGER")
-                        .requestMatchers("/positions/**").hasAnyAuthority("HR_MANAGER", "PROJECT_MANAGER")
-                        .requestMatchers("/subdivisions/**").hasAnyAuthority("HR_MANAGER", "PROJECT_MANAGER")
-                        .requestMatchers("/statuses/**").hasAnyAuthority("HR_MANAGER", "PROJECT_MANAGER")*/
+                        .requestMatchers("/projects/**").hasAnyAuthority("HR_MANAGER", "PROJECT_MANAGER", "EMPLOYEE")
+                        .requestMatchers("/leave-requests/**").hasAnyAuthority("HR_MANAGER", "PROJECT_MANAGER", "EMPLOYEE")
+                        .requestMatchers("/approval-requests/**").hasAnyAuthority("HR_MANAGER", "PROJECT_MANAGER")
                         .anyRequest().authenticated())
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
 
     @Bean
     public CorsFilter corsFilter() {

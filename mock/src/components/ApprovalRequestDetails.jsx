@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../styles/CommonForm.css';
 
-const ApprovalRequestDetails = ({ request, onClose }) => {
+const ApprovalRequestDetails = ({ request, onClose, onStatusChange }) => {
   const [comment, setComment] = useState('');
   const [statuses, setStatuses] = useState([]);
   const [error, setError] = useState(null);
@@ -37,6 +38,7 @@ const ApprovalRequestDetails = ({ request, onClose }) => {
     })
       .then(response => {
         alert(statusId === 2 ? 'Request approved.' : 'Request rejected.');
+        onStatusChange(response.data);
         onClose();
       })
       .catch(error => {
@@ -55,33 +57,41 @@ const ApprovalRequestDetails = ({ request, onClose }) => {
   const handleReject = () => {
     const rejectedStatus = statuses.find(status => status.title === 'Rejected');
     if (rejectedStatus) {
+      if (!comment) {
+        alert('Please provide a comment for rejection.');
+        return;
+      }
       changeStatus(rejectedStatus.id);
     }
   };
 
   return (
-    <div className="approval-request-details">
+    <div className="details-container">
       <h2>Approval Request Details</h2>
-      <p><strong>ID:</strong> {request.id || 'N/A'}</p>
-      <p><strong>Approver:</strong> {request.approver?.fullName || 'N/A'}</p>
-      <p><strong>Leave Request Reason:</strong> {request.leaveRequest?.reason || 'N/A'}</p>
-      <p><strong>Request Status:</strong> {request.requestStatus?.title || 'N/A'}</p>
-      <p><strong>Comment:</strong> {request.comment || 'N/A'}</p>
-      {request.requestStatus?.title === 'New' && (
-        <>
-          <input 
-            type="text" 
-            placeholder="Rejection Comment" 
-            value={comment} 
-            onChange={(e) => setComment(e.target.value)} 
-          />
-          <div>
-            <button onClick={handleApprove}>Approve</button>
-            <button onClick={handleReject}>Reject</button>
-          </div>
-        </>
-      )}
-      <button onClick={onClose}>Close</button>
+      <div className="details-content">
+        <p><strong>ID:</strong> {request.id || 'N/A'}</p>
+        <p><strong>Approver:</strong> {request.approver?.fullName || 'N/A'}</p>
+        <p><strong>Leave Request Reason:</strong> {request.leaveRequest?.reason || 'N/A'}</p>
+        <p><strong>Request Status:</strong> {request.requestStatus?.title || 'N/A'}</p>
+        <p><strong>Comment:</strong> {request.comment || 'N/A'}</p>
+        {request.requestStatus?.title === 'New' && (
+          <>
+            <input 
+              type="text" 
+              placeholder="Rejection Comment" 
+              value={comment} 
+              onChange={(e) => setComment(e.target.value)} 
+            />
+            <div className="form-buttons">
+              <button onClick={handleApprove}>Approve</button>
+              <button onClick={handleReject}>Reject</button>
+            </div>
+          </>
+        )}
+      </div>
+      <div className="details-buttons">
+        <button onClick={onClose}>Close</button>
+      </div>
       {error && <p style={{ color: 'red' }}>Error: {error.message}</p>}
     </div>
   );

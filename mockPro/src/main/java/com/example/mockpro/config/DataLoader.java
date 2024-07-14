@@ -187,7 +187,10 @@ public class DataLoader implements CommandLineRunner {
         RequestStatus rejected = new RequestStatus();
         rejected.setTitle("Rejected");
 
-        requestStatusRepository.saveAll(Arrays.asList(newRequest, approved, rejected));
+        RequestStatus submitted = new RequestStatus();
+        rejected.setTitle("Submitted");
+
+        requestStatusRepository.saveAll(Arrays.asList(newRequest, approved, rejected, submitted));
 
         LeaveRequest leaveRequest1 = new LeaveRequest();
         leaveRequest1.setEmployee(emp1);
@@ -202,7 +205,7 @@ public class DataLoader implements CommandLineRunner {
         leaveRequest2.setStartDate(new Timestamp(System.currentTimeMillis()));
         leaveRequest2.setEndDate(new Timestamp(System.currentTimeMillis() + 172800000L));
         leaveRequest2.setComment("Not feeling well.");
-        leaveRequest2.setRequestStatus(approved);
+        leaveRequest2.setRequestStatus(newRequest);
 
         LeaveRequest leaveRequest3 = new LeaveRequest();
         leaveRequest3.setEmployee(emp3);
@@ -210,7 +213,7 @@ public class DataLoader implements CommandLineRunner {
         leaveRequest3.setStartDate(new Timestamp(System.currentTimeMillis()));
         leaveRequest3.setEndDate(new Timestamp(System.currentTimeMillis() + 259200000L));
         leaveRequest3.setComment("Personal matters.");
-        leaveRequest3.setRequestStatus(rejected);
+        leaveRequest3.setRequestStatus(newRequest);
 
         leaveRequestRepository.saveAll(Arrays.asList(leaveRequest1, leaveRequest2, leaveRequest3));
 

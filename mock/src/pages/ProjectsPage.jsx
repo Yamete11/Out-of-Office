@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProjectItem from '../components/ProjectItem';
 import ProjectDetails from '../components/ProjectDetails';
+import '../styles/CommonPage.css'; // Make sure this path is correct
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
@@ -60,7 +61,7 @@ const ProjectsPage = () => {
   }
 
   return (
-    <div>
+    <div className="page-container">
       <h1>Projects</h1>
       <input
         type="text"

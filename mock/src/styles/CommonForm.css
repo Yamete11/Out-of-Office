@@ -1,0 +1,137 @@
+.form-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .form-group input[type="file"] {
+    padding: 3px;
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .form-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .form-buttons button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  .form-buttons button:hover {
+    background-color: #45a049;
+  }
+  
+  .details-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .details-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .details-content p {
+    margin: 10px 0;
+  }
+  
+  .details-content strong {
+    display: inline-block;
+    width: 150px;
+  }
+  
+  .details-buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .details-buttons button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  .details-buttons button:hover {
+    background-color: #d32f2f;
+  }
+
+  .home-page {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .navigation-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .navigation-buttons button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 200px;
+  }
+  
+  .navigation-buttons button:hover {
+    background-color: #45a049;
+  }
+  
+  

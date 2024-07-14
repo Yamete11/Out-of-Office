@@ -27,8 +27,8 @@ public class ApprovalRequestController {
     }
 
     @PutMapping("/changeStatus")
-    public ResponseEntity<?> changeStatus(@RequestBody RequestDecisionDTO requestDecisionDTO){
-        approvalRequestService.changeStatus(requestDecisionDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ApprovalRequestDTO> changeStatus(@RequestBody RequestDecisionDTO requestDecisionDTO){
+        ApprovalRequestDTO updatedRequest = approvalRequestService.changeStatus(requestDecisionDTO);
+        return new ResponseEntity<>(updatedRequest, HttpStatus.OK);
     }
 }

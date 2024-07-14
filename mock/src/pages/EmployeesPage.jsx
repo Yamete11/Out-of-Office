@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ListItem from '../components/ListItem';
-import AddEmployeeForm from '../components/AddEmployeeForm';
-import EditEmployeeForm from '../components/EditEmployeeForm';
 import EmployeeDetails from '../components/EmployeeDetails';
+import EditEmployeeForm from '../components/EditEmployeeForm';
+import AddEmployeeForm from '../components/AddEmployeeForm';
+import '../styles/CommonPage.css';
 
 const EmployeesPage = () => {
   const [employees, setEmployees] = useState([]);
@@ -90,8 +91,13 @@ const EmployeesPage = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  const handleCloseEditForm = () => {
+    setShowEditForm(false);
+    setSelectedEmployee(null);
+  };
+
   return (
-    <div>
+    <div className="page-container">
       <h1>Employees</h1>
       <button onClick={() => setShowAddForm(true)}>Add Employee</button>
       <input
@@ -101,7 +107,7 @@ const EmployeesPage = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       {showAddForm && <AddEmployeeForm onClose={() => setShowAddForm(false)} onAddEmployee={handleAddEmployee} />}
-      {showEditForm && <EditEmployeeForm employee={selectedEmployee} onClose={() => setShowEditForm(false)} onUpdateEmployee={handleUpdateEmployee} />}
+      {showEditForm && <EditEmployeeForm employee={selectedEmployee} onClose={handleCloseEditForm} onUpdateEmployee={handleUpdateEmployee} />}
       <table>
         <thead>
           <tr>

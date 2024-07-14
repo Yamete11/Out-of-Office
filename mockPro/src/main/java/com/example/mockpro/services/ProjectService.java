@@ -4,10 +4,7 @@ import com.example.mockpro.dto.AddProjectDTO;
 import com.example.mockpro.dto.EditProjectDTO;
 import com.example.mockpro.dto.ProjectDTO;
 import com.example.mockpro.dto.UpdateProjectStatusDTO;
-import com.example.mockpro.entities.Employee;
 import com.example.mockpro.entities.Project;
-import com.example.mockpro.entities.ProjectType;
-import com.example.mockpro.entities.Status;
 import com.example.mockpro.repositories.EmployeeRepository;
 import com.example.mockpro.repositories.ProjectRepository;
 import com.example.mockpro.repositories.ProjectTypeRepository;
@@ -17,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +36,16 @@ public class ProjectService {
         return projectRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+    public List<ProjectDTO> getProjects(String searchTerm, String projectType, String projectManager, String status) {
+        return projectRepository.findAll().stream()
+                .filter(project -> (searchTerm == null || project.getId().toString().contains(searchTerm)) &&
+                        (projectType == null || project.getProjectType().getTitle().equalsIgnoreCase(projectType)) &&
+                        (projectManager == null || project.getProjectManager().getFullName().equalsIgnoreCase(projectManager)) &&
+                        (status == null || project.getStatus().getTitle().equalsIgnoreCase(status)))
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
     private ProjectDTO convertToDTO(Project project) {
         ProjectDTO dto = new ProjectDTO();
         dto.setId(project.getId());
@@ -54,23 +60,21 @@ public class ProjectService {
 
     public void addProject(AddProjectDTO addProjectDTO) {
         Project project = new Project();
-        project.setProjectType(projectTypeRepository.findById(addProjectDTO.getProjectTypeId()).orElseThrow(() -> new IllegalArgumentException("Invalid project type ID")));
-        project.setStartDate(new Timestamp(addProjectDTO.getStartDate()));
-        project.setEndDate(new Timestamp(addProjectDTO.getEndDate()));
-        project.setProjectManager(employeeRepository.findById(addProjectDTO.getProjectManagerId()).orElseThrow(() -> new IllegalArgumentException("Invalid project manager ID")));
-        project.setComment(addProjectDTO.getComment());
-        project.setStatus(statusRepository.findById(addProjectDTO.getStatusId()).orElseThrow(() -> new IllegalArgumentException("Invalid status ID")));
-        projectRepository.save(project);
+        setProject(project, addProjectDTO.getProjectTypeId(), addProjectDTO.getStartDate(), addProjectDTO.getEndDate(), addProjectDTO.getProjectManagerId(), addProjectDTO.getComment(), addProjectDTO.getStatusId());
     }
 
     public void updateProject(EditProjectDTO editProjectDTO) {
         Project project = projectRepository.findById(editProjectDTO.getId()).orElseThrow(() -> new IllegalArgumentException("Project not found with id: " + editProjectDTO.getId()));
-        project.setProjectType(projectTypeRepository.findById(editProjectDTO.getProjectTypeId()).orElseThrow(() -> new IllegalArgumentException("Invalid project type ID")));
-        project.setStartDate(new Timestamp(editProjectDTO.getStartDate()));
-        project.setEndDate(new Timestamp(editProjectDTO.getEndDate()));
-        project.setProjectManager(employeeRepository.findById(editProjectDTO.getProjectManagerId()).orElseThrow(() -> new IllegalArgumentException("Invalid project manager ID")));
-        project.setComment(editProjectDTO.getComment());
-        project.setStatus(statusRepository.findById(editProjectDTO.getStatusId()).orElseThrow(() -> new IllegalArgumentException("Invalid status ID")));
+        setProject(project, editProjectDTO.getProjectTypeId(), editProjectDTO.getStartDate(), editProjectDTO.getEndDate(), editProjectDTO.getProjectManagerId(), editProjectDTO.getComment(), editProjectDTO.getStatusId());
+    }
+
+    private void setProject(Project project, Long projectTypeId, Long startDate, Long endDate, Long projectManagerId, String comment, Long statusId) {
+        project.setProjectType(projectTypeRepository.findById(projectTypeId).orElseThrow(() -> new IllegalArgumentException("Invalid project type ID")));
+        project.setStartDate(new Timestamp(startDate));
+        project.setEndDate(new Timestamp(endDate));
+        project.setProjectManager(employeeRepository.findById(projectManagerId).orElseThrow(() -> new IllegalArgumentException("Invalid project manager ID")));
+        project.setComment(comment);
+        project.setStatus(statusRepository.findById(statusId).orElseThrow(() -> new IllegalArgumentException("Invalid status ID")));
         projectRepository.save(project);
     }
 
